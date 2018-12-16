@@ -1,0 +1,61 @@
+
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  animation: App-logo-spin infinite 20s linear;
+  height: 80px;
+}
+
+.App-header-Home {
+  background-color: red;
+}
+
+.App-title {
+  font-size: 1.5em;
+}
+
+.App-intro {
+  font-size: large;
+}
+.SignupForm{
+  margin-top: 30px;
+}
+.btnRK{
+  padding: -0.16rem !important;
+}
+.Signup-Form{
+  background-color: #EEEEEE;
+}
+.signup-form-head{
+  padding: .75rem 1.25rem;
+    margin-bottom: 0;
+    background-color: rgba(160, 60, 60, 0.05);
+    border-bottom: 1px sol
+}
+
+input[type=text],input[type=email],input[type=password]{
+  width: 100%;
+  height: 40px;
+  padding: 12px 20px;
+
+  margin: 0px 0 !important;
+  box-sizing: border-box;
+}
+
+.navbar {
+  margin-top: auto;
+}
+#top-filler {
+  margin-bottom: auto;
+}
+
+#nav-container {
+  align-items: flex-end;
+}
+
+@keyframes App-logo-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
