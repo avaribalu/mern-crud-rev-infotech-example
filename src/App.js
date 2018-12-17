@@ -22,7 +22,7 @@ class App extends Component {
       first_name:null,
       last_name:null,
       about:null,
-      adminloggedIn:true
+      adminloggedIn:false
     }
     this.getUser = this.getUser.bind(this)
     this.componentDidMount = this.componentDidMount.bind(this)
@@ -87,8 +87,8 @@ class App extends Component {
         <Route path='/view/:id' component={View} />
         <Route path="/login" render={() => <LoginForm updateUser={this.updateUser} />}/>
         <Route path="/dashboard" render={() => <Dashboard adminloggedIn={this.state.adminloggedIn} updateUser={this.updateUser}/>}/>
-        <Route path="/signup" render={() => <Signup/>}/>
-        <Route path="/create" render={() => <Create/>}/>
+        <Route path="/signup" component={Signup}/>
+        <Route path="/create" component={Create}/>
         <Route path="/admin" render={() => <AdminLogin adminloggedIn={this.state.adminloggedIn} updateUser={this.updateUser}/>}/>
       </div>
     );

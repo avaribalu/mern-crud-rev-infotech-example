@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
+import { hashHistory } from 'react-router';
 import axios from "axios";
 import {
   MDBContainer,
@@ -17,7 +18,8 @@ class Admin extends Component {
     this.state = {
       username: "",
       password: "",
-      redirectTo: null
+      redirectTo: null,
+      expires:""
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -29,19 +31,38 @@ class Admin extends Component {
     });
   }
 
+  getCookie() {
+    var name = "adminloggedIn=";
+    var decodedCookie = decodeURIComponent(document.cookie);
+    var ca = decodedCookie.split(";");
+    for (var i = 0; i < ca.length; i++) {
+      var c = ca[i];
+      while (c.charAt(0) === " ") {
+        c = c.substring(1);
+      }
+      if (c.indexOf(name) === 0) {
+        return c.substring(name.length, c.length);
+      }
+    }
+    return "";
+  }
+
   handleSubmit(event) {
     event.preventDefault();
     console.log("handleSubmit");
 
     if(this.state.username === "admin" && this.state.password==="admin"){
+      document.cookie = "adminloggedIn=true";
       this.props.updateUser({
         adminloggedIn: true,
-        username:"AdminLogin"
+        username:"AdminLogin",
       });
-      console.log(this.props.adminloggedIn);
-      redirectTo: "/dashboard"
+    }else{
+      document.cookie = "adminloggedIn=false";
     }
-
+    this.setState({
+      redirectTo: "/"
+    });
     {/*axios
       .post("/admin/login", {
         username: this.state.username,
@@ -69,12 +90,11 @@ class Admin extends Component {
   }
 
   render() {
-    const adminloggedIn = this.props.adminloggedIn;
-    if (this.state.redirectTo) {
-      return <Redirect to={{ pathname: this.state.redirectTo }} />;
+  const status = (this.getCookie() === 'true');
+  if (status) {
+      return <Redirect to="/dashboard" />;
     } else {
       return (
-
         <div>
           <MDBContainer>
             <MDBRow>

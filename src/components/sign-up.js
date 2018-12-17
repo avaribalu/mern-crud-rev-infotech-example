@@ -50,10 +50,10 @@ class Signup extends Component {
           about: this.state.about
         })
         .then(response => {
+          this.props.history.push("/login");
           console.log(response);
           if (!response.data.errmsg) {
             console.log("successful signup");
-            this.setState({redirectTo: "/login"});
             } else {
             console.log("username already taken");
           }
@@ -62,7 +62,6 @@ class Signup extends Component {
           console.log("signup error: ");
           console.log(error);
         });
-      
   }
   render() {
     var btnRk = {

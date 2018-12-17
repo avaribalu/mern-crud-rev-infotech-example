@@ -18,7 +18,8 @@ class Dashboard extends Component {
   constructor() {
     super();
     this.state = {
-      user: []
+      user: [],
+      redirectTo:null
     };
   }
   componentDidMount() {
@@ -28,12 +29,34 @@ class Dashboard extends Component {
     });
   }
 
+  getCookie() {
+    var name = "adminloggedIn=";
+    var decodedCookie = decodeURIComponent(document.cookie);
+    var ca = decodedCookie.split(";");
+    for (var i = 0; i < ca.length; i++) {
+      var c = ca[i];
+      while (c.charAt(0) === " ") {
+        c = c.substring(1);
+      }
+      if (c.indexOf(name) === 0) {
+        return c.substring(name.length, c.length);
+      }
+    }
+    return "";
+  }
+
   delete(id) {
-    alert(id);
     console.log(id);
     axios.delete("/user/api/" + id).then(result => {
       this.props.history.push("/");
     });
+  }
+
+  logout(id) {
+    document.cookie = "adminloggedIn=false";
+    this.setState({
+      redirectTo: "/admin"
+    })
   }
 
   handleChange(event) {
@@ -43,10 +66,11 @@ class Dashboard extends Component {
   }
 
   render() {
-    const adminloggedIn = this.props.adminloggedIn;
+    const check = (this.getCookie() === 'true');
+    console.log(check);
     return (
       <Card>
-        {adminloggedIn ? (
+        {check ? (
           <CardBody>
             <CardTitle className="h4 text-center mb-4">All User</CardTitle>
             <Table>
@@ -82,11 +106,17 @@ class Dashboard extends Component {
               </TableBody>
             </Table>
             <Row>
-              <Col sm="8" />
+              <Col sm="4" />
               <Col sm="4">
-                  <Link to={`/create`}>
-                    Created New User <i className="fa fa-plus mt-0 teal-text" />
-                  </Link>
+                <Link to={`/create`}>
+                  Created New User <i className="fa fa-plus mt-0 teal-text" />
+                </Link>
+              </Col>
+              <Col sm="4">
+              <button
+                onClick={this.logout.bind(this,false)}>
+                <i className="fa fa-sign-out mt-0 teal-text" />
+              </button>
               </Col>
             </Row>
           </CardBody>
